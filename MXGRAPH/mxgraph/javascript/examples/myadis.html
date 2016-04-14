@@ -1,0 +1,135 @@
+<!--
+  Copyright (c) 2006-2013, JGraph Ltd
+  
+  Hello, World! example for mxGraph. This example demonstrates using
+  a DOM node to create a graph and adding vertices and edges.
+-->
+<html>
+<head>
+	<title>Hello, World! example for mxGraph</title>
+
+	<!-- Sets the basepath for the library if not in same directory -->
+	<script type="text/javascript">
+		mxBasePath = '../src';
+	</script>
+
+	<!-- Loads and initializes the library -->
+	<script type="text/javascript" src="../src/js/mxClient.js"></script>
+
+	<!-- Example code -->
+	<script type="text/javascript">
+		// Program starts here. Creates a sample graph in the
+		// DOM node with the specified ID. This function is invoked
+		// from the onLoad event handler of the document (see below).
+		function main(container)
+		{
+			// Checks if the browser is supported
+			if (!mxClient.isBrowserSupported())
+			{
+				// Displays an error message if the browser is not supported.
+				mxUtils.error('Browser is not supported!', 200, false);
+			}
+			else
+			{
+				// Disables the built-in context menu
+				mxEvent.disableContextMenu(container);
+				
+				// Creates the graph inside the given container
+				var graph = new mxGraph(container);
+
+				// Enables rubberband selection
+				new mxRubberband(graph);
+				
+				// Gets the default parent for inserting new cells. This
+				// is normally the first child of the root (ie. layer 0).
+				var parent = graph.getDefaultParent();
+								
+				// Adds cells to the model in a single step
+				//Timer
+				var clock = new Object();
+		        clock[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
+		        clock[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		        clock[mxConstants.STYLE_IMAGE] = 'images/clock.png';
+		        clock[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
+		        graph.getStylesheet().putCellStyle('clock', clock);
+
+		        //Clock
+     			var clock_red = new Object();
+		        clock_red[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
+		        clock_red[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		        clock_red[mxConstants.STYLE_IMAGE] = 'images/clock_red.png';
+		        clock_red[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
+		        graph.getStylesheet().putCellStyle('clock_red', clock_red);
+
+		        //Cos block
+        		var cos = new Object();
+		        cos[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
+		        cos[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		        cos[mxConstants.STYLE_IMAGE] = 'images/cos.png';
+		        cos[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
+		        graph.getStylesheet().putCellStyle('cos', cos);
+
+				//Sin block
+		        var sin = new Object();
+		        sin[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
+		        sin[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		        sin[mxConstants.STYLE_IMAGE] = 'images/sin.png';
+		        sin[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
+		        graph.getStylesheet().putCellStyle('sin', sin);
+
+		        //Animated Viewer
+				var ani = new Object();
+		        ani[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
+		        ani[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		        ani[mxConstants.STYLE_IMAGE] = 'images/pooja.gif';
+		        ani[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
+		        graph.getStylesheet().putCellStyle('animated_viewer', ani);
+
+			    graph.getModel().beginUpdate();
+			    try{
+			        var v1 = graph.insertVertex(parent, null, null, 20, 80,40, 40,"clock");
+					v1.setConnectable(false);
+   					v1.geometry.alternateBounds = new mxRectangle(0, 0, 20, 40);
+
+			        var v2 = graph.insertVertex(parent,null,null,150,80,40,40,"cos");
+			        var e1 = graph.insertEdge(parent, null, "", v1,v2,"startArrow=none;endArrow=none;strokeWidth=1;strokeColor=#0000FF");
+			        var v3 = graph.insertVertex(parent,null,null,150,140,40,40,"sin");
+			        
+			        var e2 = graph.insertEdge(parent,null,"A",e1,v3,"startArrow=diamond;endArrow=none;strokeWidth=1;strokeColor=#0000FF");
+			        e2.geometry.points = [new mxPoint(100,160)];
+
+			        var v4 = graph.insertVertex(parent, null, null, 250, 62,30, 150,"animated_viewer");
+			        var e3 = graph.insertEdge(parent, null, "", v2,v4,"startArrow=none;endArrow=none;strokeWidth=1;strokeColor=#0000FF");
+      				e3.getGeometry().points = [{x: 250, y: 100}];
+
+			        var e4 = graph.insertEdge(parent, null, "", v3,v4,"startArrow=none;endArrow=none;strokeWidth=1;strokeColor=#0000FF");
+      				e4.getGeometry().points = [{x: 250, y: 140}];
+
+      				var e5 = graph.insertEdge(parent,null,"B",e3,v4,"startArrow=diamond;endArrow=none;strokeWidth=1;strokeColor=#0000FF");
+			        e5.geometry.points = [new mxPoint(220,177), new mxPoint(250,177)];
+
+			        var v5 = graph.insertVertex(parent, null, null, 252, 20,30, 30,"clock_red");
+			        var e6 = graph.insertEdge(parent, null, "", v5,v4,"startArrow=none;endArrow=none;strokeWidth=1;strokeColor=#FF0000");
+			        e6.getGeometry().points = [{x: 267, y: 60}];
+
+			    }
+
+			    finally
+				{
+					// Updates the display
+					graph.getModel().endUpdate();
+				}
+			}
+		};
+	</script>
+</head>
+
+<!-- Page passes the container for the graph to the program -->
+<body onload="main(document.getElementById('graphContainer'))">
+
+	<!-- Creates a container for the graph with a grid wallpaper -->
+	<div id="graphContainer"
+		style="position:relative;overflow:hidden;width:1000px;height:1000px;background:url('editors/images/grid.gif');cursor:default;">
+	</div>
+</body>
+</html>
