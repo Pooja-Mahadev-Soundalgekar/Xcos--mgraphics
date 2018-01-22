@@ -1,7 +1,8 @@
 # Xcos--mgraphics
 FOSSEE xcos part B 
 
-Name: Pooja Mahadev Soundalgekar
+Name: Pooja Mahadev Soundalgekar, BTech-IT
+
 National Institute of Technology Karnataka
 
 The Part B .html is named as myadis.html and has path MXGRAPH/mxgraph/javascript/examples/myadis.html
